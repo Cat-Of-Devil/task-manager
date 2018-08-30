@@ -11,7 +11,6 @@
 		addListItem (data[i]);
 	}
 
-
 	console.log('data', data);
 
 
@@ -20,7 +19,8 @@
 
 		var task = {
 			id: data.length,
-			title: inputText.value
+			title: inputText.value,
+			status: 'new'
 		};
 
 		data.push(task);
@@ -49,6 +49,9 @@
 		li.innerHTML = task.title;
 		li.appendChild(iconClose);
 
+		if (data[i].status == 'finnished') 
+			li.classList.add('finnished');
+
 		taskList.appendChild(li);
 		
 		iconClose.addEventListener('click', function(event){
@@ -57,6 +60,21 @@
 			for (var i in data) {
 				if (data[i].id == task.id) {
 					data.splice(i, 1);
+				}
+			}
+
+			localStorage.setItem(listId, JSON.stringify(data));
+		});
+
+
+		li.addEventListener('click', function(event){
+
+			for (var i in data) {
+				if (data[i].id == task.id) {
+					
+					li.classList.toggle('finnished');
+
+					data[i].status = (data[i].status == 'finnished') ? 'new' : 'finnished';
 				}
 			}
 
